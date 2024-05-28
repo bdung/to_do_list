@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../constant.dart';
 import '../utils/appbar_home_search_all_add.dart';
 import '../utils/bottomnavigatorbar.dart';
-import 'components/item_date_create_new_task.dart';
 import 'components/item_task.dart';
 import 'components/search_bar.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+
+class SearchTaskScreen extends StatefulWidget {
+  const SearchTaskScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<SearchTaskScreen> createState() => _SearchTaskScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _SearchTaskScreenState extends State<SearchTaskScreen> {
   final TextEditingController _controller = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarHomeSearchAllAddTask(
-        canBack: false,
-        title: 'Home',
+        canBack: true,
+        title: 'Search Task',
       ),
       body: Padding(
         padding: const EdgeInsets.all(kDefaultPadding/2),
@@ -35,12 +33,18 @@ class _HomeScreenState extends State<HomeScreen> {
               onChange: () {},
               placeholder: 'Search for Tasks, Events',
             ),
-            ItemDateCreateNewTask(date: 'Today',),
-            SizedBox(height: kDefaultPadding,),
+            Text(
+              'Result',
+              style: TextStyle(
+                  fontWeight: FontWeight.w900,
+                  fontSize: 25,
+              )
+            ),
+            SizedBox(height: kDefaultPadding/2,),
 
             Expanded(
               child: ListView.builder(
-                  itemCount: 10,
+                  itemCount: 6,
                   itemBuilder:(context, index){
                     return ItemTask();
                   }),
@@ -48,9 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigatorBarTodolist(
-        initIndex: 0,
-      ),
-    );
+    );;
   }
 }

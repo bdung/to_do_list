@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_list/constant.dart';
 
+import 'home_screen.dart';
+
 class BeginScreen extends StatelessWidget {
   const BeginScreen({super.key});
 
@@ -10,16 +12,16 @@ class BeginScreen extends StatelessWidget {
     bool state = true;
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(kDefaultPadding),
+        padding: const EdgeInsets.all(kDefaultPadding),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset('lib/assets/images/begin.png'),
-            SizedBox(
+            const SizedBox(
               height: 80,
             ),
-            Text(
+            const Text(
               'Simplify, Organize, and Conquer Your Day',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -27,11 +29,11 @@ class BeginScreen extends StatelessWidget {
                   fontSize: 30,
                   fontFamily: kDefaultFontFamily),
             ),
-            Text(
+            const Text(
               'Take control of your tasks and achieve your goals.',
               style: TextStyle(color: kTextColorDescription),
             ),
-            SizedBox(
+            const SizedBox(
               height: 80,
             ),
             SizedBox(
@@ -39,10 +41,10 @@ class BeginScreen extends StatelessWidget {
               height: MediaQuery.sizeOf(context).height * 0.06,
               child: ElevatedButton(
                   onPressed: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => const HomeScreen()));
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomeScreen()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: kPrimaryColor,

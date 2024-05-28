@@ -1,0 +1,54 @@
+import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart';
+
+import '../../constant.dart';
+
+class CalendarMonths extends StatefulWidget {
+  const CalendarMonths({super.key});
+
+  @override
+  State<CalendarMonths> createState() => _CalendarMonthsState();
+}
+
+class _CalendarMonthsState extends State<CalendarMonths> {
+  DateTime _today = DateTime.now();
+
+  void _onDaySelected(DateTime day, DateTime focusedDay){
+    setState(() {
+      print(day);
+      _today = day;
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // height: 300,
+      // width: 300,
+      margin: EdgeInsets.all(kDefaultPadding),
+      padding: EdgeInsets.all(kDefaultPadding),
+      decoration: BoxDecoration(
+        color: kTextWhiteColor,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5), // màu của bóng
+            spreadRadius: 5, // phân tán bóng
+            blurRadius: 7, // độ mờ của bóng
+            offset: Offset(0, 3), // vị trí của bóng
+          ),
+        ],
+      ),
+      child: TableCalendar(
+        locale: 'en_US',
+        rowHeight: 40,
+        focusedDay: _today,
+        firstDay: DateTime.utc(2002,8,4),
+        lastDay:  DateTime.utc(2030,8,4),
+        headerStyle: HeaderStyle(formatButtonVisible: false, titleCentered: true),
+        availableGestures: AvailableGestures.all,
+        selectedDayPredicate: (day)=> isSameDay(day, _today),
+        onDaySelected: _onDaySelected,
+      ),
+    );
+  }
+}

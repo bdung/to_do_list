@@ -8,14 +8,14 @@ import 'components/item_date_create_new_task.dart';
 import 'components/item_task.dart';
 import 'components/search_bar.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class AllTasksScreen extends StatefulWidget {
+  const AllTasksScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<AllTasksScreen> createState() => _AllTasksScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _AllTasksScreenState extends State<AllTasksScreen> {
   final TextEditingController _controller = TextEditingController();
 
   @override
@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppbarHomeSearchAllAddTask(
         canBack: false,
-        title: 'Home',
+        title: 'All Tasks',
       ),
       body: Padding(
         padding: const EdgeInsets.all(kDefaultPadding/2),
@@ -35,21 +35,26 @@ class _HomeScreenState extends State<HomeScreen> {
               onChange: () {},
               placeholder: 'Search for Tasks, Events',
             ),
-            ItemDateCreateNewTask(date: 'Today',),
-            SizedBox(height: kDefaultPadding,),
 
+            SizedBox(height: kDefaultPadding,),
             Expanded(
               child: ListView.builder(
                   itemCount: 10,
                   itemBuilder:(context, index){
-                    return ItemTask();
+                    return Column(
+                      children: [
+                        index == 0? ItemDateCreateNewTask(date: 'Today',): index == 5? ItemDateCreateNewTask(date: 'Tomorrow',):SizedBox.shrink(),
+                        ItemTask(),
+                      ],
+                    );
                   }),
-            )
+            ),
+
           ],
         ),
       ),
       bottomNavigationBar: BottomNavigatorBarTodolist(
-        initIndex: 0,
+        initIndex: 2,
       ),
     );
   }

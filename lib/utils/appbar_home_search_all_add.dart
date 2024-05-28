@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../constant.dart';
+import '../screens/add_task_screen.dart';
 
 class AppbarHomeSearchAllAddTask extends StatelessWidget
     implements PreferredSizeWidget {
@@ -38,7 +39,9 @@ class AppbarHomeSearchAllAddTask extends StatelessWidget
                   ? Container(
                       margin: const EdgeInsets.only(right: 15),
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const AddTaskScreen(isAction: false,)));
+                        },
                         child: const Text(
                           'Edit',
                           style: TextStyle(

@@ -7,7 +7,9 @@ import 'package:to_do_list/utils/appbar_home_search_all_add.dart';
 import 'components/dialog_due_date.dart';
 
 class AddTaskScreen extends StatefulWidget {
-  AddTaskScreen({super.key});
+  final bool? isAction;
+
+  const AddTaskScreen({super.key, this.isAction});
 
   @override
   State<AddTaskScreen> createState() => _AddTaskScreenState();
@@ -26,10 +28,12 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     _currentValue = 0;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppbarHomeSearchAllAddTask(canBack: true, title: 'Add Task'),
+      appBar: AppbarHomeSearchAllAddTask(
+          canBack: true, title: 'Add Task', isEdit: widget.isAction),
       body: Padding(
         padding: const EdgeInsets.all(kDefaultPadding / 2),
         child: Column(
@@ -300,27 +304,28 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                           setState(() => _currentValue = value),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(16),
-                                        border: Border.all(color: Colors.black26),
+                                        border:
+                                            Border.all(color: Colors.black26),
                                       ),
                                     ),
-                                    Text( '$_currentValue Minute')
+                                    Text('$_currentValue Minute')
                                   ],
                                 ),
                               ),
                               actions: <Widget>[
-                              MaterialButton(
-                              onPressed: (){
-                                Navigator.pop(context);
-                              },
-                              color: kBorderButtonColor,
-                              child: Text('Select'),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                            )
+                                MaterialButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  color: kBorderButtonColor,
+                                  child: Text('Select'),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                )
                               ],
                             );
                           },
                         );
-
                       },
                       icon: Icon(
                         Icons.notifications_none,
@@ -360,25 +365,30 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(top: kDefaultPadding),
-              alignment: Alignment.center,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  'CREATE TASK',
-                  style: TextStyle(color: kTextWhiteColor, fontWeight: FontWeight.bold),
-                ),
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: 60, vertical: 15),
-                  backgroundColor: kBorderButtonColor,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
-                ),
-              ),
-            )
+            widget.isAction != null
+                ? const SizedBox()
+                : Container(
+                    margin: EdgeInsets.only(top: kDefaultPadding),
+                    alignment: Alignment.center,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        'CREATE TASK',
+                        style: TextStyle(
+                            color: kTextWhiteColor,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 60, vertical: 15),
+                        backgroundColor: kBorderButtonColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
+                      ),
+                    ),
+                  )
           ],
         ),
       ),

@@ -31,7 +31,7 @@ class ItemDateCreateNewTask extends StatelessWidget {
           ),
           child: IconButton(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>AddTaskScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddTaskScreen()));
             },
             icon: const Icon(
               Icons.add,

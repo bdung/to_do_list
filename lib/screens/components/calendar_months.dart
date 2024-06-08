@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:intl/intl.dart';
 
-import '../../constant.dart';
+import 'package:to_do_list/index.dart';
 
 class CalendarMonths extends StatefulWidget {
   const CalendarMonths({super.key});
@@ -13,12 +12,20 @@ class CalendarMonths extends StatefulWidget {
 class _CalendarMonthsState extends State<CalendarMonths> {
   DateTime _today = DateTime.now();
 
-  void _onDaySelected(DateTime day, DateTime focusedDay){
+  void _onDaySelected(DateTime day, DateTime focusedDay) {
     setState(() {
-      print(day);
       _today = day;
+      context.read<HomeBloc>().add(
+          FetchDataTaskOfDayEvent(date: "${DateFormat.yMMMd().format(day)}"));
     });
   }
+
+  void initState() {
+    context.read<HomeBloc>().add(
+        FetchDataTaskOfDayEvent(date: "${DateFormat.yMMMd().format(_today)}"));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -42,11 +49,12 @@ class _CalendarMonthsState extends State<CalendarMonths> {
         locale: 'en_US',
         rowHeight: 40,
         focusedDay: _today,
-        firstDay: DateTime.utc(2002,8,4),
-        lastDay:  DateTime.utc(2030,8,4),
-        headerStyle: HeaderStyle(formatButtonVisible: false, titleCentered: true),
+        firstDay: DateTime.utc(20020, 8, 4),
+        lastDay: DateTime.utc(2030, 8, 4),
+        headerStyle:
+            HeaderStyle(formatButtonVisible: false, titleCentered: true),
         availableGestures: AvailableGestures.all,
-        selectedDayPredicate: (day)=> isSameDay(day, _today),
+        selectedDayPredicate: (day) => isSameDay(day, _today),
         onDaySelected: _onDaySelected,
       ),
     );

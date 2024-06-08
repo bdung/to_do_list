@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class Task {
   int? id;
   String? title;
@@ -11,7 +9,8 @@ class Task {
   String? reminder;
   String? color;
   bool? isCompleted;
-  bool? state;
+
+
   Task(
       {this.id,
       this.title,
@@ -21,6 +20,7 @@ class Task {
       this.longDescription,
       this.repeatTask,
       this.reminder,
+      this.isCompleted,
       this.color});
 
   Task.fromJson(Map<String, dynamic> json) {
@@ -34,7 +34,6 @@ class Task {
     reminder = json["reminder"];
     color = json["color"];
     isCompleted = json["isCompleted"];
-    state = json["state"];
   }
 
   Map<String, dynamic> toJson() {
@@ -49,7 +48,6 @@ class Task {
     data['reminder'] = reminder;
     data['color'] = color;
     data['isCompleted'] = isCompleted;
-    data['state'] = state;
 
     return data;
   }

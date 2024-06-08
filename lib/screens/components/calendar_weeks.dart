@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_calendar_week/flutter_calendar_week.dart';
 import 'package:intl/intl.dart';
-
-import '../../constant.dart';
+import 'package:to_do_list/index.dart';
 
 class CalendarWeeks extends StatefulWidget {
   const CalendarWeeks({super.key});
@@ -12,24 +10,25 @@ class CalendarWeeks extends StatefulWidget {
 }
 
 class _CalendarWeeksState extends State<CalendarWeeks> {
+  final CalendarWeekController _controller = CalendarWeekController();
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.symmetric(vertical: kDefaultPadding),
+        margin: EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
         decoration: BoxDecoration(
           color: kTextWhiteColor,
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.5), // màu của bóng
+              color: Colors.grey.withOpacity(0.1), // màu của bóng
               spreadRadius: 5, // phân tán bóng
-              blurRadius: 7, // độ mờ của bóng
-              offset: Offset(0, 3), // vị trí của bóng
+              blurRadius: 5, // độ mờ của bóng
+              offset: Offset(0, 0), // vị trí của bóng
             ),
           ],
         ),
         child: CalendarWeek(
-          controller: CalendarWeekController(),
+          controller: _controller,
           height: 110,
           showMonth: true,
           minDate: DateTime.now().add(
@@ -40,20 +39,21 @@ class _CalendarWeeksState extends State<CalendarWeeks> {
           ),
 
           onDatePressed: (DateTime datetime) {
-            print(datetime);
+            context.read<HomeBloc>().add(FetchDataTaskOfDayEvent(
+                date: "${DateFormat.yMMMd().format(datetime)}"));
           },
-          // monthViewBuilder: (DateTime time) => Align(
-          //   alignment: FractionalOffset.center,
-          //   child: Container(
-          //       margin: const EdgeInsets.symmetric(vertical: 4),
-          //       child: Text(
-          //         DateFormat.yMMMM().format(time),
-          //         overflow: TextOverflow.ellipsis,
-          //         textAlign: TextAlign.center,
-          //         style: TextStyle(
-          //             color: Colors.blue, fontWeight: FontWeight.w600),
-          //       )),
-          // ),
+          monthViewBuilder: (DateTime time) => Align(
+            alignment: FractionalOffset.center,
+            child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 4),
+                child: Text(
+                  DateFormat.yMMMM().format(time),
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.blue, fontWeight: FontWeight.w600),
+                )),
+          ),
 
           /*Custom SATURDAY, SUNDAY*/
           weekendsStyle:

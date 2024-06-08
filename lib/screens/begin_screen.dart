@@ -1,8 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:to_do_list/constant.dart';
-
-import 'home_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:to_do_list/index.dart';
 
 class BeginScreen extends StatelessWidget {
   const BeginScreen({super.key});
@@ -40,7 +37,9 @@ class BeginScreen extends StatelessWidget {
               width: MediaQuery.sizeOf(context).width * 0.8,
               height: MediaQuery.sizeOf(context).height * 0.06,
               child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    final pres = await SharedPreferences.getInstance();
+                    pres.setBool("onboarding", true);
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(

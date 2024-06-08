@@ -1,12 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import '../constant.dart';
-import '../utils/appbar_home_search_all_add.dart';
-import '../utils/bottomnavigatorbar.dart';
-import 'components/item_date_create_new_task.dart';
-import 'components/item_task.dart';
-import 'components/search_bar.dart';
+import 'package:to_do_list/index.dart';
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,34 +10,69 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _controller = TextEditingController();
+  void initState() {
+    context.read<HomeBloc>().add(FetchDataTask());
+    _controller.text = "";
+    context.read<HomeBloc>().add(FetchDataTaskOfDayEvent(
+        date: "${DateFormat.yMMMd().format(DateTime.now())}"));
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      context.read<HomeBloc>().add(FetchDataTaskOfDayEvent(
+          date: "${DateFormat.yMMMd().format(DateTime.now())}"));
+      _controller.text = "";
+    });
     return Scaffold(
       appBar: AppbarHomeSearchAllAddTask(
         canBack: false,
         title: 'Home',
       ),
       body: Padding(
-        padding: const EdgeInsets.all(kDefaultPadding/2),
+        padding: const EdgeInsets.all(kDefaultPadding / 2),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SearchBarComponent(
+              index: 1,
               controller: _controller,
               onChange: () {},
+              keySearch: _controller.text,
               placeholder: 'Search for Tasks, Events',
             ),
-            ItemDateCreateNewTask(date: 'Today',),
-            SizedBox(height: kDefaultPadding,),
-
-            Expanded(
-              child: ListView.builder(
-                  itemCount: 10,
-                  itemBuilder:(context, index){
-                    return ItemTask();
-                  }),
-            )
+            ItemDateCreateNewTask(
+              date: 'Today',
+            ),
+            SizedBox(
+              height: kDefaultPadding,
+            ),
+            BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+              switch (state.postStatus) {
+                case PostStatus.loading:
+                  return const Center(child: CircularProgressIndicator());
+                case PostStatus.failure:
+                  return Text(state.message.toString());
+                case PostStatus.success:
+                  {
+                    if (state.listTodayTasks.length == 0) {
+                      return Center(child: Text("No tasks available"));
+                    } else {
+                      return Expanded(
+                        child: ListView.builder(
+                            itemCount: state.listTodayTasks.length,
+                            itemBuilder: (context, index) {
+                              return ItemTask(
+                                  task: state.listTodayTasks[index]);
+                            }),
+                      );
+                    }
+                  }
+                  ;
+              }
+            })
           ],
         ),
       ),

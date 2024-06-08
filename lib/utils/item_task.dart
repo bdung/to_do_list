@@ -11,7 +11,7 @@ class ItemTaskToDo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
           left: kDefaultPadding / 2,
           right: kDefaultPadding / 2,
           top: kDefaultPadding - 5,
@@ -24,7 +24,7 @@ class ItemTaskToDo extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
+          const Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Icon(
